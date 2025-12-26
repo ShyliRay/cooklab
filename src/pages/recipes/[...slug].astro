@@ -1,0 +1,227 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const recipes = await getCollection("recipes");
+  return recipes.map((r) => ({
+    params: { slug: r.slug },
+    props: { recipe: r },
+  }));
+}
+
+const { recipe } = Astro.props;
+const d = recipe.data;
+
+const badge = (label, value) => `${label}: ${value}`;
+---
+
+<!doctype html>
+<html lang="en" data-base-servings={d.servings}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{d.title} | CookLab</title>
+  </head>
+
+  <script>
+    const baseServings = Number(document.documentElement.dataset.baseServings);
+    let currentUnits = "metric";
+
+    function formatNumber(x) {
+      const r = Math.round(x * 100) / 100;
+      return (Math.abs(r - Math.round(r)) < 1e-9) ? String(Math.round(r)) : String(r);
+    }
+
+    // simple US conversions for v1
+    function toUS(value, unit) {
+      if (unit === "g") {
+        // g -> oz (and lb if big)
+        const oz = value / 28.3495;
+        if (oz >= 16) return { value: oz / 16, unit: "lb" };
+        return { value: oz, unit: "oz" };
+      }
+      if (unit === "ml") {
+        // ml -> cups (rough)
+        const cups = value / 240;
+        return { value: cups, unit: "cups" };
+      }
+      return { value, unit };
+    }
+
+    function getScaleFromServings() {
+      const desired = Number(document.querySelector("#servings").value) || baseServings;
+      return desired / baseServings;
+    }
+
+    function render() {
+      const scale = getScaleFromServings();
+
+      document.querySelectorAll(".amt").forEach((el) => {
+        const baseAmount = Number(el.dataset.baseAmount);
+        const unit = el.dataset.unit;
+
+        const scaledMetric = baseAmount * scale;
+
+        if (currentUnits === "us") {
+          const u = toUS(scaledMetric, unit);
+          el.textContent = `${formatNumber(u.value)} ${u.unit}`;
+        } else {
+          el.textContent = `${formatNumber(scaledMetric)} ${unit}`;
+        }
+      });
+    }
+
+    function setUnits(u) {
+      currentUnits = u;
+      render();
+    }
+
+    function scaleByIngredient() {
+      const key = document.querySelector("#scale-ingredient").value;
+      const want = Number(document.querySelector("#scale-amount").value);
+      if (!want || want <= 0) return;
+
+      const el = document.querySelector(`.amt[data-key="${key}"]`);
+      if (!el) {
+        // if you didn't add data-key yet, fall back to matching first occurrence
+        const fallback = Array.from(document.querySelectorAll(".amt")).find(x => x.textContent.includes(key));
+        if (!fallback) return;
+      }
+
+      const targetEl = document.querySelector(`.amt[data-key="${key}"]`);
+      if (!targetEl) return;
+
+      const baseAmt = Number(targetEl.dataset.baseAmount);
+      const newScale = want / baseAmt;
+
+      const newServings = baseServings * newScale;
+      document.querySelector("#servings").value = formatNumber(newServings);
+      render();
+    }
+
+    // wire up events
+    document.querySelector("#servings").addEventListener("input", render);
+
+    // expose to buttons
+    window.setUnits = setUnits;
+    window.scaleByIngredient = scaleByIngredient;
+
+    // initial render
+    render();
+  </script>
+
+  <body class="page">
+    <header class="top">
+      <div>
+        <h1 class="title">{d.title}</h1>
+        <p class="desc">{d.description}</p>
+      </div>
+
+      <button class="print" onclick="window.print()">Print Recipe</button>
+    </header>
+
+    <section class="controls">
+      <label>
+        Servings:
+        <input id="servings" type="number" min="1" step="0.25" value={d.servings} />
+      </label>
+
+      <button type="button" onclick="setUnits('metric')">Metric</button>
+      <button type="button" onclick="setUnits('us')">US</button>
+
+      <span style="margin-left:12px"></span>
+
+      <label>
+        Scale by:
+        <select id="scale-ingredient">
+          {d.ingredients.map((ing) => (
+            <option value={ing.key} data-unit={ing.unit}>{ing.item}</option>
+          ))}
+        </select>
+      </label>
+
+      <input id="scale-amount" type="number" min="0" step="any" placeholder="amount" />
+      <button type="button" onclick="scaleByIngredient()">Scale</button>
+    </section>
+
+    <section class="badges">
+      <span class="badge">{badge("Servings", d.servings)}</span>
+      <span class="badge">{badge("Total Time", `${d.totalTimeMin} mins`)}</span>
+      <span class="badge">{badge("Cuisine", d.cuisine)}</span>
+      <span class="badge">{badge("Flavor", d.flavorProfile.join(", "))}</span>
+      {d.restTimeMin && <span class="badge">{badge("Rest Time", `${d.restTimeMin} mins`)}</span>}
+    </section>
+
+    <section class="section">
+      <h2>Ingredients</h2>
+      <ul class="list">
+        {d.ingredients.map((ing) => (
+          <li>
+            <strong
+              class="amt"
+              data-key={ing.key}
+              data-base-amount={ing.amount}
+              data-unit={ing.unit}
+            >
+              {ing.amount} {ing.unit}
+            </strong>
+            — <em>{ing.item}</em>
+            {ing.alternative ? <span class="alt"> ({ing.alternative})</span> : null}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Cookware</h2>
+      <ul class="list">
+        {(d.cookware ?? []).map((c) => <li><em>{c}</em></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Instructions</h2>
+      <ol class="steps">
+        {d.instructions.map((s) => <li>{s}</li>)}
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>Tips / Notes</h2>
+      <ul class="list">
+        {(d.tips ?? []).map((t) => <li><em>{t}</em></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Nutrition (per serving)</h2>
+      {d.nutrition ? (
+        <div class="nutrition">
+          <div>Calories: {d.nutrition.calories ?? "—"}</div>
+          <div>Protein: {d.nutrition.protein_g ?? "—"}g</div>
+          <div>Carbs: {d.nutrition.carbs_g ?? "—"}g</div>
+          <div>Fat: {d.nutrition.fat_g ?? "—"}g</div>
+        </div>
+      ) : (
+        <div class="nutrition">—</div>
+      )}
+    </section>
+
+    <style>
+      .page{max-width:760px;margin:40px auto;padding:0 18px;font-family:system-ui;line-height:1.5}
+      .top{display:flex;gap:18px;align-items:flex-start;justify-content:space-between}
+      .title{font-size:44px;margin:0}
+      .desc{margin:8px 0 0;font-style:italic;color:#444}
+      .print{padding:10px 14px;border:1px solid #bbb;border-radius:8px;background:#fff;cursor:pointer}
+      .badges{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}
+      .badge{display:inline-block;padding:8px 10px;border-radius:8px;background:#e9eff6;border:1px solid #c9d7ea;font-size:14px}
+      .section{margin:26px 0}
+      h2{margin:0 0 10px;font-size:26px}
+      .list{margin:0;padding-left:20px}
+      .steps{margin:0;padding-left:22px}
+      .alt{color:#555}
+      .nutrition{display:grid;gap:6px}
+      @media print {.print{display:none}.page{margin:0}}
+    </style>
+  </body>
+</html>

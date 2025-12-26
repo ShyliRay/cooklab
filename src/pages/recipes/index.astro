@@ -3,17 +3,13 @@ import { getCollection } from "astro:content";
 const recipes = await getCollection("recipes");
 ---
 
-<h1>CookLab</h1>
-<p>Science-first cooking.</p>
+<h1>Recipes</h1>
 
-<h2>Latest recipes</h2>
 <ul>
-  {recipes.slice(0, 5).map((r) => (
+  {recipes.map((r) => (
     <li>
       <a href={`/recipes/${r.slug}/`}>{r.data.title}</a>
       <div>{r.data.description}</div>
     </li>
   ))}
 </ul>
-
-<a href="/recipes/">View all recipes →</a>
