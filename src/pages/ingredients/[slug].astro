@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const ingredients = await getCollection("ingredients");
+
+  return ingredients.map((ingredient) => ({
+    params: { slug: ingredient.slug },
+    props: { ingredient },
+  }));
+}
+
+const { ingredient } = Astro.props;
+---
+
+<BaseLayout>
+  <h1>{ingredient.data.title}</h1>
+  <p>{ingredient.data.description}</p>
+
+  {ingredient.data.image && (
+    <img
+      src={ingredient.data.image}
+      alt={ingredient.data.title}
+      style="max-width: 300px"
+    />
+  )}
+</BaseLayout>

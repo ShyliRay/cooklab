@@ -1,19 +1,84 @@
 ---
+import "../styles/home.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 const recipes = await getCollection("recipes");
 ---
 
-<h1>CookLab</h1>
-<p>Science-first cooking.</p>
+<BaseLayout>
+	<h1>Learn To Cook With Ingredients You Already Have</h1>
+	<p>Start with ingredients, not recipes.</p>
 
-<h2>Latest recipes</h2>
-<ul>
-  {recipes.slice(0, 5).map((r) => (
-    <li>
-      <a href={`/recipes/${r.slug}/`}>{r.data.title}</a>
-      <div>{r.data.description}</div>
-    </li>
-  ))}
-</ul>
 
-<a href="/recipes/">View all recipes →</a>
+	<!--section for user to enter ingredients-->
+	<form class="ingredient-search" action="/ingredients/" method="get">
+        <input
+          type="text"
+          name="q"
+          placeholder="e.g. chicken, garlic, rice"
+          aria-label="Enter ingredients"
+        />
+        <button type="submit">Search</button>
+    </form>
+
+	<!--links to other sections here-->
+	<p class="section-link">Looking for something else?</p>
+
+	<ul class="section-link">
+		<li><a href="/experiments/">Experimental</a></li>
+		<li><a href="/ingredients/">Ingredients Lab</a></li>
+		<li><a href="/techniques/">Techniques</a></li>
+	</ul>
+
+		
+	<!-- showing latest recipes -->
+	<section class="latest-recipes">
+		<div class="latest-recipes__header">
+			<h3>Latest recipes</h3>
+			<a class="latest-recipes__all" href="/recipes/">View all recipes →</a>
+		</div>
+
+		<ul class="recipe-grid">
+			{recipes.slice(0, 5).map((r) => (
+			<li class="recipe-card">
+				<a class="recipe-card__link" href={`/recipes/${r.slug}/`}>
+				<img
+					class="recipe-card__img"
+					src={r.data.image ?? "/images/recipes/placeholder.jpg"}
+					alt={r.data.imageAlt ?? r.data.title}
+					loading="lazy"
+				/>
+
+				<div class="recipe-card__body">
+					<div class="recipe-card__top">
+					<div class="recipe-card__titleblock">
+						<div class="recipe-card__title">{r.data.title}</div>
+
+						{r.data.dietary?.length ? (
+						<div class="recipe-card__tags">
+							{r.data.dietary.map((tag) => (
+							<span class="tag">{tag}</span>
+							))}
+						</div>
+						) : null}
+					</div>
+
+					{r.data.rating ? (
+						<div class="recipe-card__rating" aria-label={`Rating ${r.data.rating} out of 5`}>
+						<span class="star">★</span>
+						<span>{r.data.rating}</span>
+						</div>
+					) : null}
+					</div>
+
+					{r.data.description ? (
+					<div class="recipe-card__desc">{r.data.description}</div>
+					) : null}
+				</div>
+				</a>
+			</li>
+			))}
+		</ul>
+	</section>
+
+  </BaseLayout>

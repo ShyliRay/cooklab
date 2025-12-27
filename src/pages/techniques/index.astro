@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const techniques = await getCollection("techniques");
+---
+
+<BaseLayout>
+  <h1>Techniques</h1>
+  <p>Cooking methods explained through chemistry and control.</p>
+
+  <ul>
+    {techniques.map((t) => (
+      <li><a href={`/techniques/${t.slug}/`}>{t.data.title}</a></li>
+    ))}
+  </ul>
+</BaseLayout>

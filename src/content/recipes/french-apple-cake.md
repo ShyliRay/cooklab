@@ -12,13 +12,49 @@ flavorProfile: ["Sweet"]
 
 ingredients:
   - key: flour
-    amount: 180
+    amount: 125
     unit: g
     item: "all-purpose flour"
   - key: apple
     amount: 300
     unit: g
     item: "baking apples"
+  - key: "chemical leavening agent"
+    amount: 1
+    unit: tsp
+    item: "baking powder"
+  - key: salt
+    amount: .25
+    unit: tsp
+    item: salt
+  - key: fat
+    amount: 115
+    unit: g
+    item: "unsalted butter"
+  - key: egg
+    amount: 2
+    unit: none
+    item: "large egg"
+  - key: vanilla
+    amount: 1
+    unit: tsp
+    item: "vanilla extract"
+  - key: alcohol
+    amount: 3
+    unit: tbsp
+    item: "dark rum"
+  - key: nutmeg
+    amount: .5
+    unit: tsp
+    item: nutmeg
+  - key: cinnamon
+    amount: .5
+    unit: tsp
+    item: cinnamon
+  - key: allspice
+    amount: .5
+    unit: tsp
+    item: allspice
 
 cookware:
   - "springform pan (or round cake pan)"

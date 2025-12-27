@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const ingredients = await getCollection("ingredients");
+---
+
+<BaseLayout>
+  <h1>Ingredients</h1>
+  <p>Explore ingredients by function, flavor, and behavior.</p>
+
+  <ul>
+    {ingredients.map((i) => (
+      <li><a href={`/ingredients/${i.slug}/`}>{i.data.title}</a></li>
+    ))}
+  </ul>
+</BaseLayout>
