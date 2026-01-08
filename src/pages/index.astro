@@ -8,25 +8,35 @@ const recipes = await getCollection("recipes");
 
 <BaseLayout>
 	<div class="header-area">
-		<h3 class="logo">CookLab</h3>
+		<div class="crop">
+			<img src="public/assets/images/kevin-mccutcheon-APDMfLHZiRA-unsplash.jpg" alt="person holding black frying pan">
+		</div>
+		<img src="../assets/images/icons/logo.png" class="logo">
 		<div class="top-right">
-			<button class="icon">🥘</button>
-			<button class="icon">🔪</button>
+			<a href="/ingredients/" class="icon">
+				<img src="../assets/images/icons/Fish--Streamline-Plump.png" alt="fishie">
+			</a>
+    		<a href="/techniques/" class="icon">
+				<img src="../assets/images/icons/Chef-Toque-Hat--Streamline-Plump.png" alt="chef's hat">
+			</a>
 		</div>
 
 		<div class="title-space">
 			<h2>Start with ingredients, not recipes.</h2>
 
-			<!--section for user to enter ingredients-->
 			<form class="search-bar" action="/ingredients/" method="get">
 				<input type="text" name="q" placeholder="e.g. chicken, garlic, rice" aria-label="Enter ingredients"/>
 				<button type="submit">Search</button>
 			</form>
-			<button class="filter">filter</button>
+			
+			<select class="filter">
+				<option value="">Filter</option>
+				<option value="cuisine">By Cuisine</option>
+				<option value="time">By Time</option>
+				<option value="difficulty">By Difficulty</option>
+			</select>
 		</div>
-		<div class="crop">
-			<img src="public/assets/images/kevin-mccutcheon-APDMfLHZiRA-unsplash.jpg" alt="person holding black frying pan">
-		</div>
+		
 	</div>
 
 	<section class="cards">

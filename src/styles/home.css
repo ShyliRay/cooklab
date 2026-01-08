@@ -1,104 +1,20 @@
 :root {
     --link-text-colour: black;
-    --default-text-colour: blanchedalmond;
+    --default-text-colour: #8FBFFA;
     --text-shadow-colour: darkslategrey;
-    --button-colour: papayawhip;
 
-    --bg-btn-colour: skyblue;
+    --bg-btn-colour: rgba(255, 255, 255, 0.9);
+    --bg-btn-hover-colour: papayawhip;
     --border-btn-colour: powderblue;
     --btn-border-rad: 15px;
     --search-bar-padding: 24px 20px;
     --search-bar-size: 20px;
 }
 
-.body {
+body {
+    background-color: floralwhite;
     margin: 0;
     padding: 0;
-}
-/**************** header area ****************/
-.header-area {
-    position: relative;
-    text-align: center;
-}
-
-.logo {
-    position: absolute;
-    top: 8px;
-    left: 16px;
-    z-index: 10; /* Ensure it's above the image */
-    color: white; /* Make it visible on the image */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for readability */
-}
-
-.top-right {
-    position: absolute;
-    top: 16px;
-    right: 16px; 
-    z-index: 10; 
-    display: flex;
-    gap: 0.5rem;
-}
-
-.icon {
-    padding: 8px 14px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50px; 
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.icon:hover {
-    background: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.title-space {
-    color: var(--default-text-colour);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 25%);
-}
-
-.filter {
-    position: absolute;
-    left: 0%;
-    margin: .75rem 0rem 0rem 2rem;
-    border: 0;
-    border-radius: 10px;
-    padding: 6px 16px;
-}
-
-/**************** search bar ****************/
-
-.search-bar {
-    width: 100%;
-    max-width: 100rem;
-    background: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    border-radius: 25px;
-}
-
-.search-bar input {
-    background: transparent;
-    flex: 1;
-    border: 0;
-    outline: none;
-    padding: var(--search-bar-padding);
-    font-size: var(--search-bar-size);
-}
-
-.search-bar button {
-    background-color: var(--button-colour);
-    border: 0;
-    padding: var(--search-bar-padding);
-    font-size: var(--search-bar-size);
 }
 
 /**************** bg img ****************/
@@ -113,7 +29,136 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    filter: brightness(0.9);
 }
+
+/**************** header area ****************/
+.header-area {
+    position: relative;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.logo {
+    position: absolute;
+    left: 20px;
+    top: -35px;
+    width: 10%;
+}
+
+.top-right {
+    position: absolute;
+    top: 16px;
+    right: 16px; 
+    z-index: 10; 
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon {
+    padding: 8px 14px;
+    background: var(--bg-btn-colour);
+    border: none;
+    border-radius: 50px; 
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.icon:hover {
+    background: var(--bg-btn-colour);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.title-space {
+    color: var(--default-text-colour);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 5%);
+    width: 90%;
+    max-width: 1000px;
+}
+
+.title-space h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.filter {
+    position: absolute;
+    left: 0%;
+    margin: .75rem 0rem 0rem 2rem;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background: var(--bg-btn-colour);
+    font-size: 1rem;
+    appearance: none; /* Remove default dropdown arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 35px;
+}
+
+/**************** search bar ****************/
+
+.search-bar {
+    width: 100%;
+    max-width: 100rem;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    gap: 1rem; /* Add gap between input and button */
+    padding-right: 1rem; /* Add padding for the button */
+}
+
+.search-bar input {
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: var(--search-bar-padding);
+    font-size: var(--search-bar-size);
+    color: #333;
+}
+
+.search-bar input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.search-bar button {
+    background-color: var(--bg-btn-colour);
+    color: #2859C5;
+    border: 0;
+    padding: 16px 32px;
+    font-size: var(--search-bar-size);
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.search-bar button:hover {
+    background-color: var(--bg-btn-hover-colour);
+}
+
+.search-bar button::after {
+    content: "→"; /* Arrow */
+    font-size: 1.2rem;
+}
+
+
 
 /**************** cards ****************/
 .cards {
