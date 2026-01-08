@@ -1,7 +1,7 @@
 ---
 title: French Apple Cake
 description: This French apple cake feels like home, soft and buttery with a comforting depth of flavor.
-image: "/assets/images/recipes/french-apple-cake.jpg"
+image: "../assets/images/recipes/french-apple-cake.jpg"
 pubDate: 2025-12-25
 
 servings: 8

@@ -1,6 +1,6 @@
 :root {
     --link-text-colour: black;
-    --default-text-colour: #8FBFFA;
+    --default-text-colour: floralwhite;
     --text-shadow-colour: darkslategrey;
 
     --bg-btn-colour: rgba(255, 255, 255, 0.9);
@@ -29,7 +29,7 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(0.9);
+    filter: brightness(0.95);
 }
 
 /**************** header area ****************/
@@ -43,8 +43,8 @@ body {
 .logo {
     position: absolute;
     left: 20px;
-    top: -35px;
-    width: 10%;
+    top: -50px;
+    width: 12%;
 }
 
 .top-right {

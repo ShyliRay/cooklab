@@ -5,6 +5,7 @@ export const recipes = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    image: z.string().optional(),
     pubDate: z.coerce.date(),
 
     servings: z.number(),
