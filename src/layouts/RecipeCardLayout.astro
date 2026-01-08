@@ -1,0 +1,12 @@
+---
+import "../styles/card.css";
+const { title, image, match_percent } = Astro.props;
+---
+
+<article class="card">
+  <img src={image} alt={title} />
+  <div class="card-content">
+    {match_percent && <p>{match_percent}% match</p>}
+    <h6>{title}</h6>
+  </div>
+</article>

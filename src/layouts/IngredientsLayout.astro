@@ -1,0 +1,41 @@
+---
+import "../styles/ingredient.css";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CookLab</title>
+  </head>
+
+  <body>
+    <header class="site-header">
+        <a href="/" class="site-title">CookLab</a>
+        <p class="sub-title">ingredients mode<p>
+        
+        <div class="nav-row">
+            <nav class="tabs">
+            <a href="/">Home</a>
+            <a href="/recipes/">Recipes</a>
+            <a href="/ingredients/">Ingredients</a>
+            <a href="/experiments/">Experiments</a>
+            </nav>
+
+            <a href="/search/" class="search-icon" aria-label="Search recipes">🔍</a>
+        </div>
+    </header>
+
+
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p>Science-first cooking</p>
+    </footer>
+
+  </body>
+</html>

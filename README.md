@@ -10,10 +10,21 @@ The goal is to make cooking more flexible, accurate, and understandable by focus
 ---
 ## Features
 
-### filters
+
+### Recipes
+search by filters
+
 | symbol | meaning |
 |--------|---------|
 | 🌶️🌶️    | Spicy   |
 | ***V***      | Vegan   |
 | ***GF***     | Gluten-free |
 | ***VEG***    | Vegetarian |
+
+### Ingredients Lab
+categories
+- **acid**: 
+- **aromatics(inital)**:
+- **fats**: ex. butter, oil
+
+### Experimental mode

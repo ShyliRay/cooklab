@@ -5,7 +5,7 @@ category: chemical reaction
 subcategory: browning
 pubDate: 2025-12-26
 
-image: "/images/techniques/maillard.jpg" <!--rmb to replace later -->
+#image: "/images/techniques/maillard.jpg" <!--rmb to replace later -->
 
 difficulty: beginner
 activeTimeMin: 5

@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import "../styles/home.css";
 ---
 
 <!DOCTYPE html>
@@ -11,22 +11,6 @@ import "../styles/global.css";
   </head>
 
   <body>
-    <header class="site-header">
-      <a href="/" class="site-title"><span style="color:CadetBlue;">Cook</span>Lab</a>
-
-      <div class="nav-row">
-        <nav class="tabs">
-          <a href="/">Home</a>
-          <a href="/recipes/">Recipes</a>
-          <a href="/ingredients/">Ingredients</a>
-          <a href="/techniques/">Techniques</a>
-          <a href="/experiments/">Experimental</a>
-        </nav>
-
-        <a href="/search/" class="search-icon" aria-label="Search recipes">🔍</a>
-      </div>
-    </header>
-
     <main>
       <slot />
     </main>
